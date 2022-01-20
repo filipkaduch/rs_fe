@@ -6,7 +6,6 @@
             <button type="button" class="btn btn-action button is-rounded" :class="{ 'bg-primary' : !isCameraOpen, 'bg-danger' : isCameraOpen}" @click="toggleCamera">
               <span v-if="!isCameraOpen">
                 Open Camera
-                <font-awesome-icon :icon="['fas', 'edit']" />
               </span>
               <span v-else>Close Camera</span>
           </button>
@@ -229,7 +228,7 @@ export default {
         const download = document.getElementById("downloadPhoto");
         const canvas = document.getElementById("photoTaken").toDataURL("image/png")
           .replace("image/jpeg", "image/octet-stream");
-            return axios.post(`http://bba11d50df56.ngrok.io/register_user`, { headers: {
+            return axios.post(`http://147.175.105.115:5001/register_user`, { headers: {
                       'Content-type':'application/json'
                   }, data: {
                     image: canvas,
@@ -250,7 +249,7 @@ export default {
         const download = document.getElementById("downloadPhoto");
         const canvas = document.getElementById("photoTaken").toDataURL("image/png")
           .replace("image/jpeg", "image/octet-stream");
-            return axios.post(`http://bba11d50df56.ngrok.io/recognize_user`, { headers: {
+            return axios.post(`http://147.175.105.115:5001/recognize_user`, { headers: {
                       'Content-type':'application/json'
                   }, data: {
                     image: canvas,
