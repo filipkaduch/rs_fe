@@ -74,6 +74,8 @@ export default {
       console.log(this.$route);
       this.userId = this.$route.query.user;
       this.mode = this.$route.query.mode; 
+      console.log(this.mode);
+      console.log(this.userId);
     },
     methods: {
         toggleCamera() {
@@ -210,7 +212,7 @@ export default {
         const download = document.getElementById("downloadPhoto");
         const canvas = document.getElementById("photoTaken").toDataURL("image/png")
           .replace("image/jpeg", "image/octet-stream");
-            return axios.post(`http://daef-95-102-114-236.ngrok.io/recognize_user`, { headers: {
+            return axios.post(`http://95.102.114.236:5000/recognize_user`, { headers: {
                       'Content-type':'application/json'
                   }, data: {
                     image: canvas,
