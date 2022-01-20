@@ -4,7 +4,10 @@
       <div class="rounded mb-5 p-2 position-relative">
         <div class="camera-button">
             <button type="button" class="btn btn-action button is-rounded" :class="{ 'bg-primary' : !isCameraOpen, 'bg-danger' : isCameraOpen}" @click="toggleCamera">
-              <span v-if="!isCameraOpen">Open Camera</span>
+              <span v-if="!isCameraOpen">
+                Open Camera
+                <font-awesome-icon :icon="['fas', 'edit']" />
+              </span>
               <span v-else>Close Camera</span>
           </button>
         </div>
@@ -136,12 +139,11 @@ export default {
       parseValue(check) {
         const regExp = /\(([^)]+)\)/;
         const matches = regExp.exec(check);
-        console.log(matches);
-        console.log(this.userId);
-        console.log(check.substr(0, check.indexOf(' ')))
-        console.log(check.substr(0, check.indexOf(' ')) !== this.userId);
-        if (check.substr(0, check.indexOf(' ')) !== this.userId) {
-          return false;
+
+        if (check) {
+          if (check.substr(0, check.indexOf(' ')) !== this.userId) {
+            return false;
+          }
         }
         console.log(matches);
         //matches[1] contains the value between the parentheses
