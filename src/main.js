@@ -1,8 +1,31 @@
-import Vue from 'vue'
-import App from './App.vue'
+import * as plugins from '@/plugins/all';
 
-Vue.config.productionTip = false
+import App from '@/App.vue';
+import Vue from 'vue';
+import './plugins/bootstrap-vue'
+import './plugins/axios'
+import axios from 'axios';
 
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
+window.Vue = Vue;
+Vue.config.productionTip = false;
+
+let appConfig = null;
+
+axios({
+	url: '/config.json',
+	baseURL: '/'
+})
+	.then(({data}) => {
+		appConfig = data;
+	})
+	.catch(() => {
+		console.error('Can not load config');
+	})
+	.finally(() => {
+		new Vue({
+			...plugins,
+			appConfig,
+			render: (render) => render(App)
+		}).$mount('#app');
+    console.log(appConfig);
+	});

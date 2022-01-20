@@ -24,8 +24,8 @@
         <canvas v-show="isPhotoTaken" id="photoTaken" ref="canvas" :width="450" :height="337.5"></canvas>
       </div>
       
-      <div v-if="isCameraOpen && !isLoading && photos.length < 3" class="camera-shoot">
-        <button type="button" class="button" @click="takePhoto" v-if="mode">
+      <div v-if="isCameraOpen && !isLoading && photos.length < 40" class="camera-shoot">
+        <button type="button" class="button" @click="takePhoto" v-if="mode === '1'">
           <img src="https://img.icons8.com/material-outlined/50/000000/camera--v2.png">
         </button>
         <div v-else class="d-block">
@@ -36,8 +36,8 @@
         </div>
       </div>
       <!-- <img v-if="dataUrl !== ''" v-bind:src="dataUrl" /> -->
-      <h3 v-if="isCameraOpen"> {{ pictureText[photos.length]}} </h3>
-      <div class="alert" v-if="overlay"> Couldn't detect, please take another picture </div>
+      <h3 v-if="isCameraOpen"> {{ mode === '1' ? 'Recognize' : 'Register'}} </h3>
+      <h3 v-if="check !== null"> {{ check }} </h3>
 
       <div v-if="isPhotoTaken && isCameraOpen" class="camera-download">
         <a id="downloadPhoto" download="my-photo.jpg" class="button btn btn-action-inverse" role="button" @click="downloadImage">
@@ -71,7 +71,8 @@ export default {
         };
     },
     mounted() {
-      this.userId = this.$route.query.userId;
+      console.log(this.$route);
+      this.userId = this.$route.query.user;
       this.mode = this.$route.query.mode; 
     },
     methods: {
@@ -111,7 +112,9 @@ export default {
           });
       },
       startRecording() {
-        for(let i; i < 40; i++) {
+        console.log('PROC?');
+        for (let i = 0; i < 1; i++) {
+          console.log('LAUNCH', i);
           this.takePhoto();
         }
       },
@@ -134,30 +137,23 @@ export default {
         }
         const canvas = document.getElementById("photoTaken").toDataURL("image/jpeg")
           .replace("image/jpeg", "image/octet-stream");
-        
-        if (this.mode) {
-          if (this.photos.length < 3) {
+        let form=new FormData();
+        form.append("blob",canvas);
+        if (this.mode === '1') {
+          if (this.photos.length < 1) {
             this.downloadImage().then((data) => {
               this.check = data;
               console.log(this.check);
               console.log(typeof this.check);
-              if (this.check !== 'Not detected') {
-                // this.dataUrl = URL.createObjectURL(this.check)
-                this.pictureCount++;
-                this.overlay = false;
-                this.photos.push(canvas);
-              } else {
-                this.overlay = true;
-              }
             })
           } 
           
-          if (this.photos.length === 3) {
+          if (this.photos.length === 1) {
             this.isPhotoTaken = !this.isPhotoTaken;
           }
-        } else {
+        } else if(this.mode === '2') {
           if (this.photos.length < 40) {
-            this.registerImage().then((data) => {
+            this.recordImage().then((data) => {
               this.check = data;
               console.log(this.check);
               console.log(typeof this.check);
@@ -169,10 +165,12 @@ export default {
               } else {
                 this.overlay = true;
               }
-            })
+            });
+
+            // this.isPhotoTaken = !this.isPhotoTaken;
           } 
           
-          if (this.photos.length === 40) {
+          if (this.photos.length === 30) {
             this.isPhotoTaken = !this.isPhotoTaken;
           }
         }
@@ -189,14 +187,15 @@ export default {
       recordImage() {
         // eslint-disable-next-line no-unused-vars
         const download = document.getElementById("downloadPhoto");
-        const canvas = document.getElementById("photoTaken").toDataURL("image/jpeg")
-        .replace("image/jpeg", "image/octet-stream");
-            return axios.post(`https://e-bettor.herokuapp.com/create_record`, { headers: {
-                      'Content-type':'multipart/form-data'
-                  }, responseType: 'blob', data: {
+        const canvas = document.getElementById("photoTaken").toDataURL("image/png")
+          .replace("image/jpeg", "image/octet-stream");
+            return axios.post(`http://5123-95-102-114-236.ngrok.io/register_user`, { headers: {
+                      'Content-type':'application/json'
+                  }, data: {
                     image: canvas,
                     user: this.userId,
-                    detection: this.photos.length === 0 ? 'face' : 'side',
+                    detection: this.photos.length < 40 ? 'face' : 'side',
+                    directory: this.photos.length < 30 ? 'train' : 'val',
                   }})
                   .then(({data}) => {
                       return data;
@@ -209,20 +208,22 @@ export default {
       downloadImage() {
         // eslint-disable-next-line no-unused-vars
         const download = document.getElementById("downloadPhoto");
-        const canvas = document.getElementById("photoTaken").toDataURL("image/jpeg")
-      .replace("image/jpeg", "image/octet-stream");
-          return axios.post(`https://e-bettor.herokuapp.com/check_view`, { headers: {
-                    'Content-type':'multipart/form-data'
-                }, responseType: 'blob', data: {
-                  image: canvas,
-                  detection: this.photos.length === 0 ? 'face' : 'side'
-                }})
-                .then(({data}) => {
-                    return data;
-                })
-                .catch((response) => {
-                    console.log(response);
-                });
+        const canvas = document.getElementById("photoTaken").toDataURL("image/png")
+          .replace("image/jpeg", "image/octet-stream");
+            return axios.post(`http://daef-95-102-114-236.ngrok.io/recognize_user`, { headers: {
+                      'Content-type':'application/json'
+                  }, data: {
+                    image: canvas,
+                    user: this.userId,
+                    detection: 'face',
+                    directory: 'val',
+                  }})
+                  .then(({data}) => {
+                      return data;
+                  })
+                  .catch((response) => {
+                      console.log(response);
+                  });
         // download.setAttribute("href", canvas);
       }
     

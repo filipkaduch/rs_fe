@@ -1,0 +1,6 @@
+{
+	"apiBaseUrl": "https://recognition-service-be.herokuapp.com/",
+	"authorizationHeaderName": "Authorization",
+	"authorizationTokenType": "Bearer",
+	"environment": "development"
+}
