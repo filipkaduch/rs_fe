@@ -53,6 +53,12 @@
           <!-- <p>{{infoText === null ? 'Start recording' : infoText}}</p> -->
         </div>
       </div>
+      <div class="d-block">
+        <div>
+          <a href="https://github.com/filipkaduch/rs_fe">Front end Github page</a>
+        </div>
+        <a href="https://github.com/filipkaduch/recognition_services">Flask app serving FaceNet</a>
+      </div>
     </div>
   </div>
 </template>
@@ -228,7 +234,7 @@ export default {
         const download = document.getElementById("downloadPhoto");
         const canvas = document.getElementById("photoTaken").toDataURL("image/png")
           .replace("image/jpeg", "image/octet-stream");
-            return axios.post(`//http://09c27b349d32.ngrok.io/register_user`, { headers: {
+            return axios.post(`http://147.175.105.115:5001/register_user`, { headers: {
                       'Content-type':'application/json'
                   }, data: {
                     image: canvas,
@@ -249,7 +255,7 @@ export default {
         const download = document.getElementById("downloadPhoto");
         const canvas = document.getElementById("photoTaken").toDataURL("image/png")
           .replace("image/jpeg", "image/octet-stream");
-            return axios.post(`http://09c27b349d32.ngrok.io/recognize_user`, { headers: {
+            return axios.post(`http://147.175.105.115:5001/recognize_user`, { headers: {
                       'Content-type':'application/json',
                       'Accept': 'application/json'
                   }, data: {
