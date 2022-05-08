@@ -234,7 +234,7 @@ export default {
         const download = document.getElementById("downloadPhoto");
         const canvas = document.getElementById("photoTaken").toDataURL("image/png")
           .replace("image/jpeg", "image/octet-stream");
-            return axios.post(`http://192.168.1.12:5000/register_user`, { headers: {
+            return axios.post(`http://93200d226b23.ngrok.io/register_user`, { headers: {
                       'Content-type':'application/json'
                   }, data: {
                     image: canvas,
@@ -255,7 +255,7 @@ export default {
         const download = document.getElementById("downloadPhoto");
         const canvas = document.getElementById("photoTaken").toDataURL("image/png")
           .replace("image/jpeg", "image/octet-stream");
-            return axios.post(`http://192.168.1.12:5000/recognize_user`, { headers: {
+            return axios.post(`http://93200d226b23.ngrok.io/recognize_user`, { headers: {
                       'Content-type':'application/json',
                       'Accept': 'application/json'
                   }, data: {
@@ -314,6 +314,7 @@ export default {
   margin-top: 2rem;
   margin-bottom: 2rem;
   padding: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   flex-direction: column;
   justify-content: center;
