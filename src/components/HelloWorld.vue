@@ -234,7 +234,7 @@ export default {
         const download = document.getElementById("downloadPhoto");
         const canvas = document.getElementById("photoTaken").toDataURL("image/png")
           .replace("image/jpeg", "image/octet-stream");
-            return axios.post(`http://93200d226b23.ngrok.io/register_user`, { headers: {
+            return axios.post(`https://recognition-be.onrender.com/register_user`, { headers: {
                       'Content-type':'application/json'
                   }, data: {
                     image: canvas,
@@ -255,7 +255,7 @@ export default {
         const download = document.getElementById("downloadPhoto");
         const canvas = document.getElementById("photoTaken").toDataURL("image/png")
           .replace("image/jpeg", "image/octet-stream");
-            return axios.post(`http://93200d226b23.ngrok.io/recognize_user`, { headers: {
+            return axios.post(`https://recognition-be.onrender.com/recognize_user`, { headers: {
                       'Content-type':'application/json',
                       'Accept': 'application/json'
                   }, data: {
