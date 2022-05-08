@@ -88,11 +88,8 @@ export default {
         };
     },
     mounted() {
-      console.log(this.$route);
       this.userId = this.$route.query.user;
       this.mode = this.$route.query.mode; 
-      console.log(this.mode);
-      console.log(this.userId);
     },
     methods: {
         toggleCamera() {
