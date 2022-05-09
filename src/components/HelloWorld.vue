@@ -132,10 +132,15 @@ export default {
         console.log('PROC?');
         this.infoText = 'Recording in progress';
         this.btnDisable = true;
-        for (let i = 0; i < 20; i++) {
-          console.log('LAUNCH', i);
-          this.takePhoto();
-        }
+        var i = 0
+        const id = window.setInterval(function(){
+            if(i >= 15) {
+                clearInterval(id);
+                return;
+            }
+            this.takePhoto();
+            i++;
+        }, 1000);
         this.infoText = 'Recording finished you can return to registration';
       },
       parseValue(check) {
