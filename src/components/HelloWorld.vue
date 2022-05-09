@@ -237,8 +237,9 @@ export default {
         const download = document.getElementById("downloadPhoto");
         const canvas = document.getElementById("photoTaken").toDataURL("image/png")
           .replace("image/jpeg", "image/octet-stream");
-            return axios.post(`http://147.175.105.115:5001/register_user`, { headers: {
+            return axios.post(`https://147.175.105.115:5001/register_user`, { headers: {
                       'Content-type':'application/json',
+                      'Content-Security-Policy': 'http-equiv',
                       'Access-Control-Allow-Origin':'*'
                   }, data: {
                     image: canvas,
@@ -259,9 +260,10 @@ export default {
         const download = document.getElementById("downloadPhoto");
         const canvas = document.getElementById("photoTaken").toDataURL("image/png")
           .replace("image/jpeg", "image/octet-stream");
-            return axios.post(`http://147.175.105.115:5001/recognize_user`, { headers: {
+            return axios.post(`https://147.175.105.115:5001/recognize_user`, { headers: {
                       'Content-type':'application/json',
                       'Access-Control-Allow-Origin':'*',
+                      'Content-Security-Policy': 'http-equiv',
                       'Accept': 'application/json'
                   }, data: {
                     image: canvas,
