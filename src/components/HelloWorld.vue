@@ -42,7 +42,7 @@
       
       <div v-if="isCameraOpen && !isLoading" class="camera-shoot">
         <button type="button" class="button" @click="recognize" v-if="mode === '1'" :disabled="btnDisable">
-          <b-spinner variant="primary" v-if="btnDisable" />
+          <b-spinner variant="primary" v-if="btnDisable" >{{ pictureCount }}</b-spinner>
           <img v-else src="https://img.icons8.com/material-outlined/50/000000/camera--v2.png">
         </button>
         <div v-else class="d-block">
@@ -78,6 +78,7 @@ export default {
           isLoading: false,
           pictureCount: 0,
           overlay: false,
+          interval: 0,
           check: null,
           dataUrl: '',
           pictureText: ['Frontal photo', 'Side photo 1', 'Side photo 2', 'Completed'],
@@ -236,7 +237,7 @@ export default {
         const download = document.getElementById("downloadPhoto");
         const canvas = document.getElementById("photoTaken").toDataURL("image/png")
           .replace("image/jpeg", "image/octet-stream");
-            return axios.post(`https://reco-be.onrender.com/register_user`, { headers: {
+            return axios.post(`https://recognition-be.onrender.com/register_user`, { headers: {
                       'Content-type':'application/json',
                       'Access-Control-Allow-Origin':'*'
                   }, data: {
@@ -258,7 +259,7 @@ export default {
         const download = document.getElementById("downloadPhoto");
         const canvas = document.getElementById("photoTaken").toDataURL("image/png")
           .replace("image/jpeg", "image/octet-stream");
-            return axios.post(`https://reco-be.onrender.com/recognize_user`, { headers: {
+            return axios.post(`https://recognition-be.onrender.com/recognize_user`, { headers: {
                       'Content-type':'application/json',
                       'Access-Control-Allow-Origin':'*',
                       'Accept': 'application/json'
