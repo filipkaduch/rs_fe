@@ -134,14 +134,14 @@ export default {
         this.infoText = 'Recording in progress';
         this.btnDisable = true;
         var i = 0
-        const id = window.setInterval(function(){
+        const id = setInterval(() => {
             if(i >= 15) {
                 clearInterval(id);
                 return;
             }
             this.takePhoto();
             i++;
-        }, 1000);
+        }, 2000);
         this.infoText = 'Recording finished you can return to registration';
       },
       parseValue(check) {
