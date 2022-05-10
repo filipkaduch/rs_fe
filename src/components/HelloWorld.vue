@@ -133,7 +133,7 @@ export default {
         console.log('PROC?');
         this.infoText = 'Recording in progress';
         this.btnDisable = true;
-        var i = 0
+        let i = 0
         const id = setInterval(() => {
             if(i >= 15) {
                 clearInterval(id);
