@@ -136,9 +136,11 @@ export default {
         let i = 0
         const id = setInterval(() => {
             if(i >= 15) {
+                this.btnDisable = false;
                 clearInterval(id);
                 return;
             }
+            this.btnDisable = true;
             this.takePhoto();
             i++;
         }, 2000);
